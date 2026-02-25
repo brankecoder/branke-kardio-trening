@@ -19,6 +19,12 @@ h1{
     margin-bottom:2px;
 }
 
+.version{
+    font-size:14px;
+    color:red;
+    margin-left:8px;
+}
+
 .author{
     font-size:12px;
     color:red;
@@ -147,17 +153,48 @@ button{
     color:#e74c3c;
     margin-left:5px;
 }
+
+.upute{
+    margin-top:15px;
+    font-size:12px;
+    text-align:left;
+    max-width:420px;
+    line-height:1.5;
+}
+
+.whatsapp-link{
+    margin-top:10px;
+    margin-bottom:25px;
+    font-size:12px;
+}
+
+.whatsapp-link a{
+    color:#25D366;
+    font-weight:bold;
+    text-decoration:none;
+}
+
+.whatsapp-link a:hover{
+    text-decoration:underline;
+}
 </style>
 </head>
 
 <body>
 
-<h1>KARDIO TRENING</h1>
+<h1>
+    KARDIO TRENING 
+    <span class="version">v3.01</span>
+</h1>
 <div class="author">by Branke</div>
 
 <div class="container">
 
 <div id="etapeSelection">
+
+    <div style="margin-top:0px; margin-bottom:10px; font-size:18px;">
+        Odaberi broj etapa vožnje sobnog bicikla:
+    </div>
 
     <div class="etape-buttons">
         <div>
@@ -176,12 +213,21 @@ button{
         </div>
     </div>
 
-    <div style="margin-top:20px; font-size:18px;">
-        Odaberi broj etapa vožnje sobnog bicikla.
+    <div class="upute">
+        <strong>Upute:</strong><br>
+        Dnevni kardio trening se sastoji od:<br>
+        1. Jutarnje tjelovježbe 
+        (<a href="https://youtu.be/5qAVh30ElvM?feature=shared" target="_blank">YouTube link</a>) - 30min<br>
+        2. Prijepodnevna vožnja sobnog bicikla<br>
+        3. Popodnevna vožnja sobnog bicikla<br><br>
+
+        *Sve vježbe krenite lakšim tempom, pa postepeno pojačavate sljedeći dan.<br>
+        **Na sobnom biciklu podesite opterećenje na sredinu za početak pa prilagodite ako vam ne odgovara.<br>
+        ***Sobni bicikl krećete s vožnjom 4 etape, pa povećavajte svaki dan za jednu etapu do max. 12 etapa. Bicikl vozite brzinom cca 60okr/min.
     </div>
 
     <div style="margin-top:15px; font-size:14px;">
-        Program napravljen po uzoru na kardio vježbe u SBKT.
+        Program napravljen za poboljšanje općeg kardio stanja.
     </div>
 
     <div style="font-size:12px; margin-top:5px;">
@@ -193,13 +239,12 @@ button{
         <a href="https://revolut.me/brankebananke" target="_blank">
             Revolut
         </a>
-          račun.
+        račun.
     </div>
 
 </div>
 
 <div id="trainingArea" class="hidden">
-
     <div id="phaseLabel" class="phase-label">PRIPREMA</div>
 
     <div class="total-time">
@@ -228,9 +273,14 @@ button{
         <button class="green-btn" onclick="resumeTraining()">NASTAVI</button>
         <button class="red-btn" onclick="resetProgram()">PREKINI</button>
     </div>
+</div>
 
 </div>
 
+<div class="whatsapp-link">
+    <a href="https://wa.me/385994626921" target="_blank">
+        Branke@Whatsapp kontakt
+    </a>
 </div>
 
 <script>
