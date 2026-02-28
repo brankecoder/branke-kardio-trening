@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kardio Trening</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial, sans-serif;
+background:#111;
+color:white;
+text-align:center;
+}
+
+h1{
+margin-top:20px;
+margin-bottom:2px;
+}
+
+.version{
+font-size:14px;
+color:red;
+margin-left:8px;
+position:relative;
+display:inline-block;
+}
+
+.version a{
+position:absolute;
+left:0;
+top:0;
+width:100%;
+height:100%;
+text-decoration:none;
+color:transparent;
+background:transparent;
+}
+
+.author{
+font-size:12px;
+color:red;
+margin-bottom:15px;
+}
+
+.container{
+display:flex;
+flex-direction:column;
+align-items:center;
+padding-top:10px;
+}
+
+button{
+padding:10px 18px;
+margin:3px;
+font-size:16px;
+border-radius:4px;
+border:none;
+cursor:pointer;
+}
+
+.etape-buttons button{
+background:#444;
+color:white;
+width:60px;
+}
+
+.main-btn{
+background:#2ecc71;
+color:black;
+font-weight:bold;
+}
+
+.stop-btn{
+background:#e74c3c;
+color:white;
+font-weight:bold;
+}
+
+.green-btn{
+background:#2ecc71;
+color:black;
+font-weight:bold;
+}
+
+.red-btn{
+background:#e74c3c;
+color:white;
+font-weight:bold;
+}
+
+.white-btn{
+background:white;
+color:black;
+font-weight:bold;
+}
+
+.hidden{
+display:none;
+}
+
+.phase-label{
+font-size:24px;
+font-weight:bold;
+margin:10px 0 18px 0;
+}
+
+.total-time{
+margin-top:0;
+margin-bottom:18px;
+font-size:21.6px;
+}
+
+.remaining-time{
+margin-top:18px;
+margin-bottom:18px;
+font-size:21.6px;
+}
+
+.circles{
+display:flex;
+gap:15px;
+margin:0 0 5px 0;
+justify-content:center;
+}
+
+.circle{
+width:90px;
+height:90px;
+border-radius:50%;
+position:relative;
+overflow:hidden;
+}
+
+.exercise{
+background:#2ecc71;
+}
+
+.rest{
+background:#e74c3c;
+}
+
+.cooldown{
+background:#3498db;
+}
+
+.fill{
+position:absolute;
+bottom:0;
+width:100%;
+height:0%;
+background:rgba(0,0,0,0.35);
+transition:height 1s linear;
+}
+
+.info{
+font-size:21.6px;
+margin:18px 10px 10px 10px;
+}
+
+.donation{
+margin-top:30px;
+font-size:14px;
+}
+
+.donation a,
+.upute a,
+.whatsapp-link a{
+color:#2ecc71;
+font-weight:bold;
+text-decoration:none;
+}
+
+.donation a:hover,
+.upute a:hover,
+.whatsapp-link a:hover{
+text-decoration:underline;
+}
+
+.upute{
+margin-top:5px;
+font-size:13px;
+text-align:left;
+max-width:420px;
+line-height:1.5;
+}
+
+.napomene{
+margin-top:12px;
+font-size:12px;
+text-align:left;
+max-width:420px;
+line-height:1.6;
+opacity:0.9;
+}
+
+.napomene div{
+display:block;
+margin-bottom:4px;
+}
+
+.whatsapp-link{
+margin-top:15px;
+font-size:14px;
+}
+
+</style>
+</head>
+
+<body>
+
+<h1>
+KARDIO TRENING 
+<span class="version">
+v3.15
+<a href="https://youtu.be/5qAVh30ElvM?si=59BPaG-FaY_l5Otk" target="_blank"></a>
+</span>
+</h1>
+
+<div class="author">
+by Branke
+</div>
+
+<div class="container">
+
+<div id="etapeSelection">
+
+<div class="upute">
+
+<strong>Upute:</strong><br>
+
+Dnevni kardio trening se sastoji od:<br>
+
+1. Jutarnje tjelovježbe 
+(<a href="https://youtu.be/EkyuoWBDIo0?si=M5GQf5lPK3YvOvsk" target="_blank">
+YouTube link
+</a>) - 30min<br>
+
+2. Prijepodnevna vožnja sobnog bicikla<br>
+
+3. Popodnevna vožnja sobnog bicikla<br>
+
+</div>
+
+<div style="margin-top:15px;margin-bottom:10px;font-size:18px;">
+Odaberi broj etapa vožnje sobnog bicikla:
+</div>
+
+<div class="etape-buttons">
+
+<div>
+<button onclick="selectEtape(3)">3</button>
+<button onclick="selectEtape(4)">4</button>
+<button onclick="selectEtape(5)">5</button>
+<button onclick="selectEtape(6)">6</button>
+<button onclick="selectEtape(7)">7</button>
+</div>
+
+<div>
+<button onclick="selectEtape(8)">8</button>
+<button onclick="selectEtape(9)">9</button>
+<button onclick="selectEtape(10)">10</button>
+<button onclick="selectEtape(11)">11</button>
+<button onclick="selectEtape(12)">12</button>
+</div>
+
+</div>
+
+<div class="napomene">
+<div>* Prije početka vježbanja savjetujte se s liječnikom.</div>
+<div>** Vježbe započnite lagano i postupno pojačavajte.</div>
+<div>*** Sobni bicikl: krenite sa srednjim opterećenjem, krenite s 4 etape i povećavajte dnevno do 12 max. (držite tempo oko 60 okr/min).</div>
+</div>
+
+<div style="margin-top:15px;font-size:14px;">
+Program napravljen za poboljšanje općeg kardio stanja.
+</div>
+
+<div style="font-size:12px;margin-top:10px;">
+Program nastao tijekom kardio rehabilitacije (veljača 2026)
+</div>
+
+<div class="donation">
+Program je potpuno besplatan, a znak zahvalnosti možete uplatiti na 
+<a href="https://revolut.me/brankebananke" target="_blank">
+Revolut
+</a>
+račun.
+</div>
+
+<div class="whatsapp-link">
+<a href="https://wa.me/385994626921" target="_blank">
+Branke@Whatsapp kontakt
+</a>
+</div>
+
+</div>
+
+<div id="trainingArea" class="hidden">
+
+<div id="phaseLabel" class="phase-label">PRIPREMA</div>
+
+<div class="total-time">Vrijeme treniranja: <span id="totalTime">00:00</span></div>
+
+<div class="circles">
+<div class="circle exercise" id="c1"><div class="fill" id="f1"></div></div>
+<div class="circle exercise" id="c2"><div class="fill" id="f2"></div></div>
+<div class="circle rest" id="c3"><div class="fill" id="f3"></div></div>
+</div>
+
+<div class="remaining-time">
+Preostalo vrijeme: <span id="remainingTime">00:00</span>
+</div>
+
+<div class="info">
+Etapa <span id="currentEtapa">1</span> / <span id="totalEtapaDisplay">0</span>
+</div>
+
+<button id="repeatBtn" class="white-btn hidden" onclick="resetProgram()">
+PONOVI VJEŽBANJE
+</button>
+
+<button id="startStopBtn" class="main-btn hidden" onclick="toggleTraining()">
+START
+</button>
+
+<div id="pauseOptions" class="hidden">
+<button class="green-btn" onclick="resumeTraining()">NASTAVI</button>
+<button class="red-btn" onclick="resetProgram()">PREKINI</button>
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+let totalEtape=0;
+let currentEtapa=1;
+let phase=0;
+let seconds=0;
+let totalSeconds=0;
+let totalPlannedSeconds=0;
+let cooldownEndSeconds=0;
+let interval=null;
+let running=false;
+let audioCtx=null;
+let inCooldown=false;
+let cooldownMinute=0;
+let wakeLock=null;
+
+async function requestWakeLock(){
+try{
+if('wakeLock' in navigator){
+wakeLock=await navigator.wakeLock.request('screen');
+}
+}catch(err){}
+}
+
+document.addEventListener("visibilitychange",()=>{
+if(wakeLock!==null && document.visibilityState==="visible"){
+requestWakeLock();
+}
+});
+
+function selectEtape(num){
+totalEtape=num;
+totalPlannedSeconds=(num*3+3)*60 - 240;
+document.getElementById("remainingTime").innerText=formatTime(totalPlannedSeconds);
+document.getElementById("totalEtapaDisplay").innerText=num;
+document.getElementById("etapeSelection").classList.add("hidden");
+document.getElementById("trainingArea").classList.remove("hidden");
+document.getElementById("startStopBtn").classList.remove("hidden");
+}
+
+function updateCirclesForEtapa(){
+const c3=document.getElementById("c3");
+if(currentEtapa>=totalEtape){
+c3.classList.add("hidden");
+}else{
+c3.classList.remove("hidden");
+}
+}
+
+function playBeep(type){
+if(!audioCtx){
+audioCtx=new (window.AudioContext||window.webkitAudioContext)();
+}
+const osc=audioCtx.createOscillator();
+const gain=audioCtx.createGain();
+osc.connect(gain);
+gain.connect(audioCtx.destination);
+
+if(type==='rest'){
+osc.frequency.value=1000;
+osc.type='square';
+const t=audioCtx.currentTime;
+gain.gain.setValueAtTime(1.0, t);
+gain.gain.setValueAtTime(0.0, t+0.25);
+gain.gain.setValueAtTime(1.0, t+0.5);
+gain.gain.setValueAtTime(0.0, t+0.75);
+gain.gain.setValueAtTime(1.0, t+1.0);
+gain.gain.setValueAtTime(0.0, t+1.25);
+gain.gain.setValueAtTime(1.0, t+1.5);
+gain.gain.linearRampToValueAtTime(0.0, t+2.0);
+}else{
+osc.frequency.value=1000;
+osc.type='square';
+gain.gain.setValueAtTime(1.0,audioCtx.currentTime);
+gain.gain.linearRampToValueAtTime(0.0,audioCtx.currentTime+2.0);
+}
+osc.start();
+osc.stop(audioCtx.currentTime+2.0);
+}
+
+function updateLabel(text,color){
+const lbl=document.getElementById("phaseLabel");
+lbl.innerText=text;
+lbl.style.color=color;
+}
+
+function updateRemaining(){
+let remaining;
+if(inCooldown){
+remaining=cooldownEndSeconds-totalSeconds;
+}else{
+remaining=totalPlannedSeconds-totalSeconds;
+}
+if(remaining<0) remaining=0;
+document.getElementById("remainingTime").innerText=formatTime(remaining);
+}
+
+function tick(){
+seconds++;
+totalSeconds++;
+updateRemaining();
+document.getElementById("totalTime").innerText=formatTime(totalSeconds);
+
+let maxPhase=(currentEtapa>=totalEtape)?1:2;
+
+document.getElementById("f"+(phase+1)).style.height=((seconds/60)*100)+"%";
+
+if(seconds>=60){
+let beepType=(phase===2)?'rest':'exercise';
+playBeep(beepType);
+document.getElementById("f"+(phase+1)).style.height="100%";
+seconds=0;
+phase++;
+
+if(phase>maxPhase){
+phase=0;
+clearCircles();
+if(currentEtapa>=totalEtape){
+startCooldown();
+return;
+}
+currentEtapa++;
+document.getElementById("currentEtapa").innerText=currentEtapa;
+updateCirclesForEtapa();
+}
+
+if(!inCooldown){
+if(phase===0||phase===1){
+updateLabel("VJEŽBAJ!","#2ecc71");
+}else{
+updateLabel("ODMARAJ!","#e74c3c");
+}
+}
+}
+}
+
+function clearCircles(){
+document.getElementById("f1").style.height="0%";
+document.getElementById("f2").style.height="0%";
+document.getElementById("f3").style.height="0%";
+}
+
+function startCooldown(){
+inCooldown=true;
+cooldownMinute=0;
+seconds=0;
+/* Preostalo vrijeme broji od 3:00 */
+cooldownEndSeconds=totalSeconds+180;
+updateRemaining();
+updateLabel("OPUŠTANJE","#3498db");
+const c3=document.getElementById("c3");
+c3.classList.remove("hidden");
+document.getElementById("c1").className="circle cooldown";
+document.getElementById("c2").className="circle cooldown";
+document.getElementById("c3").className="circle cooldown";
+}
+
+function cooldownTick(){
+seconds++;
+totalSeconds++;
+updateRemaining();
+document.getElementById("totalTime").innerText=formatTime(totalSeconds);
+let percent=(seconds/60)*100;
+document.getElementById("f"+(cooldownMinute+1)).style.height=percent+"%";
+
+if(seconds>=60){
+playBeep('exercise');
+document.getElementById("f"+(cooldownMinute+1)).style.height="100%";
+seconds=0;
+cooldownMinute++;
+
+if(cooldownMinute>2){
+clearInterval(interval);
+updateLabel("Bravo trening završen!","#2ecc71");
+document.getElementById("startStopBtn").classList.add("hidden");
+document.getElementById("repeatBtn").classList.remove("hidden");
+}
+}
+}
+
+function mainLoop(){
+if(inCooldown){
+cooldownTick();
+}else{
+tick();
+}
+}
+
+function toggleTraining(){
+if(!running){
+running=true;
+requestWakeLock();
+document.getElementById("startStopBtn").innerText="ZAUSTAVI";
+document.getElementById("startStopBtn").className="stop-btn";
+updateLabel("VJEŽBAJ!","#2ecc71");
+updateCirclesForEtapa();
+interval=setInterval(mainLoop,1000);
+}else{
+pauseTraining();
+}
+}
+
+function pauseTraining(){
+running=false;
+clearInterval(interval);
+document.getElementById("startStopBtn").classList.add("hidden");
+document.getElementById("pauseOptions").classList.remove("hidden");
+}
+
+function resumeTraining(){
+running=true;
+requestWakeLock();
+document.getElementById("pauseOptions").classList.add("hidden");
+document.getElementById("startStopBtn").classList.remove("hidden");
+document.getElementById("startStopBtn").innerText="ZAUSTAVI";
+document.getElementById("startStopBtn").className="stop-btn";
+interval=setInterval(mainLoop,1000);
+}
+
+function resetProgram(){
+location.reload();
+}
+
+function formatTime(sec){
+let m=Math.floor(sec/60);
+let s=sec%60;
+return String(m).padStart(2,'0')+":"+String(s).padStart(2,'0');
+}
+
+</script>
+
+</body>
+</html>
