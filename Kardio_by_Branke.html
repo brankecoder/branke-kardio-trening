@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kardio Trening</title>
+<title>Kardio Trening v3.19</title>
 
 <style>
 
@@ -206,6 +206,41 @@ margin-top:15px;
 font-size:14px;
 }
 
+.etapa-progress{
+display:flex;
+gap:5px;
+justify-content:center;
+flex-wrap:wrap;
+max-width:420px;
+margin:10px auto 15px auto;
+}
+
+.etapa-rect{
+height:18px;
+border-radius:3px;
+background:transparent;
+border:2px solid white;
+flex:1;
+min-width:12px;
+max-width:40px;
+transition:background 0.4s, border-color 0.4s;
+}
+
+.etapa-rect.done{
+background:#2ecc71;
+border-color:#2ecc71;
+}
+
+.etapa-rect.done-warning{
+background:#f1c40f;
+border-color:#f1c40f;
+}
+
+.etapa-rect.done-danger{
+background:#e74c3c;
+border-color:#e74c3c;
+}
+
 </style>
 </head>
 
@@ -214,12 +249,12 @@ font-size:14px;
 <h1>
 KARDIO TRENING 
 <span class="version">
-v3.15
+v3.19
 <a href="https://youtu.be/5qAVh30ElvM?si=59BPaG-FaY_l5Otk" target="_blank"></a>
 </span>
 </h1>
 
-<div class="author">
+<div class="author" id="authorLabel" style="cursor:pointer;" onclick="authorClick()">
 by Branke
 </div>
 
@@ -271,7 +306,7 @@ Odaberi broj etapa vožnje sobnog bicikla:
 <div class="napomene">
 <div>* Prije početka vježbanja savjetujte se s liječnikom.</div>
 <div>** Vježbe započnite lagano i postupno pojačavajte.</div>
-<div>*** Sobni bicikl: krenite sa srednjim opterećenjem, krenite s 4 etape i povećavajte dnevno do 12 max. (držite tempo oko 60 okr/min).</div>
+<div>*** Sobni bicikl: krenite sa srednjim opterećenjem, krenite s 4 etape i povećavajte dnevno do 12 max. (držite tempo oko 60 okr/min (15km/h)).</div>
 </div>
 
 <div style="margin-top:15px;font-size:14px;">
@@ -318,6 +353,8 @@ Preostalo vrijeme: <span id="remainingTime">00:00</span>
 Etapa <span id="currentEtapa">1</span> / <span id="totalEtapaDisplay">0</span>
 </div>
 
+<div class="etapa-progress" id="etapaProgress"></div>
+
 <button id="repeatBtn" class="white-btn hidden" onclick="resetProgram()">
 PONOVI VJEŽBANJE
 </button>
@@ -350,6 +387,30 @@ let audioCtx=null;
 let inCooldown=false;
 let cooldownMinute=0;
 let wakeLock=null;
+let phaseDuration=60; /* testni mod: 10s, normalni: 60s */
+let testMode=false;
+let authorYellow=false;
+
+function authorClick(){
+/* Samo na ekranu odabira etapa */
+if(!document.getElementById("etapeSelection").classList.contains("hidden")){
+authorYellow=!authorYellow;
+const lbl=document.getElementById("authorLabel");
+if(authorYellow){
+lbl.style.color="#f1c40f";
+/* Aktiviraj testni mod (10s) */
+testMode=true;
+phaseDuration=5;
+lbl.title="TEST MOD: 5s/faza";
+}else{
+lbl.style.color="red";
+/* Vrati normalni mod (60s) */
+testMode=false;
+phaseDuration=60;
+lbl.title="";
+}
+}
+}
 
 async function requestWakeLock(){
 try{
@@ -365,6 +426,33 @@ requestWakeLock();
 }
 });
 
+function buildEtapaProgress(){
+const container=document.getElementById("etapaProgress");
+container.innerHTML="";
+for(let i=1;i<=totalEtape;i++){
+const rect=document.createElement("div");
+rect.className="etapa-rect";
+rect.id="eRect"+i;
+container.appendChild(rect);
+}
+}
+
+/* Bojanje pravokutnika napretka.
+   Boji sve etape do currentEtapa uključivo (odmah na početku etape).
+   Poziv s finalCall=true boji i zadnju etapu crvenom (za kraj treninga). */
+function updateEtapaProgress(finalCall){
+let upTo = finalCall ? currentEtapa : currentEtapa;
+for(let i=1;i<=upTo;i++){
+const rect=document.getElementById("eRect"+i);
+if(rect){
+rect.className="etapa-rect";
+if(i===totalEtape) rect.classList.add("done-danger");
+else if(i===totalEtape-1) rect.classList.add("done-warning");
+else rect.classList.add("done");
+}
+}
+}
+
 function selectEtape(num){
 totalEtape=num;
 totalPlannedSeconds=(num*3+3)*60 - 240;
@@ -373,6 +461,7 @@ document.getElementById("totalEtapaDisplay").innerText=num;
 document.getElementById("etapeSelection").classList.add("hidden");
 document.getElementById("trainingArea").classList.remove("hidden");
 document.getElementById("startStopBtn").classList.remove("hidden");
+buildEtapaProgress();
 }
 
 function updateCirclesForEtapa(){
@@ -432,6 +521,16 @@ if(remaining<0) remaining=0;
 document.getElementById("remainingTime").innerText=formatTime(remaining);
 }
 
+/* Resetira visinu fill elementa bez CSS tranzicije, pa je vrati */
+function resetFill(id){
+const el=document.getElementById(id);
+el.style.transition="none";
+el.style.height="0%";
+/* Forsirani reflow da browser "vidi" promjenu prije vraćanja tranzicije */
+el.getBoundingClientRect();
+el.style.transition="height 1s linear";
+}
+
 function tick(){
 seconds++;
 totalSeconds++;
@@ -440,9 +539,9 @@ document.getElementById("totalTime").innerText=formatTime(totalSeconds);
 
 let maxPhase=(currentEtapa>=totalEtape)?1:2;
 
-document.getElementById("f"+(phase+1)).style.height=((seconds/60)*100)+"%";
+document.getElementById("f"+(phase+1)).style.height=((seconds/phaseDuration)*100)+"%";
 
-if(seconds>=60){
+if(seconds>=phaseDuration){
 let beepType=(phase===2)?'rest':'exercise';
 playBeep(beepType);
 document.getElementById("f"+(phase+1)).style.height="100%";
@@ -451,13 +550,17 @@ phase++;
 
 if(phase>maxPhase){
 phase=0;
-clearCircles();
+/* Resetiraj fill-ove bez animacije */
+resetFill("f1");
+resetFill("f2");
+resetFill("f3");
 if(currentEtapa>=totalEtape){
 startCooldown();
 return;
 }
 currentEtapa++;
 document.getElementById("currentEtapa").innerText=currentEtapa;
+updateEtapaProgress();
 updateCirclesForEtapa();
 }
 
@@ -471,20 +574,15 @@ updateLabel("ODMARAJ!","#e74c3c");
 }
 }
 
-function clearCircles(){
-document.getElementById("f1").style.height="0%";
-document.getElementById("f2").style.height="0%";
-document.getElementById("f3").style.height="0%";
-}
-
 function startCooldown(){
 inCooldown=true;
 cooldownMinute=0;
 seconds=0;
-/* Preostalo vrijeme broji od 3:00 */
-cooldownEndSeconds=totalSeconds+180;
+cooldownEndSeconds=totalSeconds+(phaseDuration*3);
 updateRemaining();
 updateLabel("OPUŠTANJE","#3498db");
+/* Označi zadnji pravokutnik crvenom odmah na početku opuštanja */
+updateEtapaProgress(true);
 const c3=document.getElementById("c3");
 c3.classList.remove("hidden");
 document.getElementById("c1").className="circle cooldown";
@@ -497,21 +595,24 @@ seconds++;
 totalSeconds++;
 updateRemaining();
 document.getElementById("totalTime").innerText=formatTime(totalSeconds);
-let percent=(seconds/60)*100;
+let percent=(seconds/phaseDuration)*100;
 document.getElementById("f"+(cooldownMinute+1)).style.height=percent+"%";
 
-if(seconds>=60){
+if(seconds>=phaseDuration){
 playBeep('exercise');
 document.getElementById("f"+(cooldownMinute+1)).style.height="100%";
 seconds=0;
 cooldownMinute++;
 
-if(cooldownMinute>2){
+if(cooldownMinute>=3){
 clearInterval(interval);
 updateLabel("Bravo trening završen!","#2ecc71");
 document.getElementById("startStopBtn").classList.add("hidden");
 document.getElementById("repeatBtn").classList.remove("hidden");
+return;
 }
+/* Resetiraj sljedeći fill bez animacije */
+resetFill("f"+(cooldownMinute+1));
 }
 }
 
@@ -531,6 +632,7 @@ document.getElementById("startStopBtn").innerText="ZAUSTAVI";
 document.getElementById("startStopBtn").className="stop-btn";
 updateLabel("VJEŽBAJ!","#2ecc71");
 updateCirclesForEtapa();
+updateEtapaProgress();
 interval=setInterval(mainLoop,1000);
 }else{
 pauseTraining();
