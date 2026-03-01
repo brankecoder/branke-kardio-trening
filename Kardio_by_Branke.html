@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kardio Trening v3.20</title>
+<title>Kardio Trening v3.25</title>
 
 <style>
 
@@ -250,7 +250,7 @@ border-color:#e74c3c;
 <h1 id="mainTitle" style="margin-top:20px;margin-bottom:2px;text-align:left;">
 KARDIO TRENING 
 <span class="version">
-v3.23
+v3.25
 <a href="https://youtu.be/5qAVh30ElvM?si=59BPaG-FaY_l5Otk" target="_blank"></a>
 </span>
 </h1>
@@ -315,8 +315,13 @@ YouTube link
 
 </div>
 
-<div style="margin-top:15px;margin-bottom:10px;font-size:18px;">
+<div style="display:inline-block;position:relative;text-align:left;">
+<div style="margin-top:15px;margin-bottom:4px;font-size:18px;">
 Odaberi broj etapa vožnje sobnog bicikla:
+</div>
+<div style="text-align:right;margin-bottom:8px;">
+<span id="soundToggleLabel" onclick="toggleMinuteSound()" style="cursor:pointer;font-size:12px;color:#2ecc71;font-family:Arial,sans-serif;">Zvuk kraja minute = UKLJU&#268;EN</span>
+</div>
 </div>
 
 <div class="etape-buttons">
@@ -397,6 +402,10 @@ Etapa <span id="currentEtapa">1</span> / <span id="totalEtapaDisplay">0</span>
 PONOVI VJEŽBANJE
 </button>
 
+<div id="soundToggleTraining" style="text-align:center;margin:0 auto 8px auto;">
+<span id="soundToggleLabelTraining" onclick="toggleMinuteSound()" style="cursor:pointer;font-size:12px;font-family:Arial,sans-serif;color:#2ecc71;">Zvuk kraja minute = UKLJU&#268;EN</span>
+</div>
+
 <div id="startButtons">
 <button id="startStopBtn" class="main-btn hidden" onclick="toggleTraining()">
 START
@@ -433,6 +442,20 @@ let wakeLock=null;
 let phaseDuration=60; /* testni mod: 10s, normalni: 60s */
 let testMode=false;
 let authorYellow=false;
+let minuteSoundEnabled=true;
+
+function toggleMinuteSound(){
+  minuteSoundEnabled=!minuteSoundEnabled;
+  var lbl=document.getElementById("soundToggleLabel");
+  var lbl2=document.getElementById("soundToggleLabelTraining");
+  if(minuteSoundEnabled){
+    if(lbl){ lbl.style.color="#2ecc71"; lbl.innerText="Zvuk kraja minute = UKLJU\u010cEN"; }
+    if(lbl2){ lbl2.style.color="#2ecc71"; lbl2.innerText="Zvuk kraja minute = UKLJU\u010cEN"; }
+  }else{
+    if(lbl){ lbl.style.color="orange"; lbl.innerText="Zvuk kraja minute = ISKLJU\u010cEN"; }
+    if(lbl2){ lbl2.style.color="orange"; lbl2.innerText="Zvuk kraja minute = ISKLJU\u010cEN"; }
+  }
+}
 
 function authorClick(){
 /* Samo na ekranu odabira etapa */
@@ -544,6 +567,17 @@ document.getElementById("trainingArea").classList.remove("hidden");
 document.getElementById("startStopBtn").classList.remove("hidden");
 document.getElementById("prekidBtn").classList.remove("hidden");
 buildEtapaProgress();
+/* Sync sound toggle label in training area */
+var lbl2=document.getElementById("soundToggleLabelTraining");
+if(lbl2){
+  if(minuteSoundEnabled){
+    lbl2.style.color="#2ecc71";
+    lbl2.innerText="Zvuk kraja minute = UKLJU\u010cEN";
+  }else{
+    lbl2.style.color="orange";
+    lbl2.innerText="Zvuk kraja minute = ISKLJU\u010cEN";
+  }
+}
 }
 
 function updateCirclesForEtapa(){
@@ -556,6 +590,7 @@ c3.classList.remove("hidden");
 }
 
 function playBeep(type){
+if(!minuteSoundEnabled) return;
 if(!audioCtx){
 audioCtx=new (window.AudioContext||window.webkitAudioContext)();
 }
