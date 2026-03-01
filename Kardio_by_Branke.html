@@ -398,13 +398,13 @@ Etapa <span id="currentEtapa">1</span> / <span id="totalEtapaDisplay">0</span>
 
 <div class="etapa-progress" id="etapaProgress"></div>
 
-<button id="repeatBtn" class="white-btn hidden" onclick="resetProgram()">
-PONOVI VJEŽBANJE
-</button>
-
 <div id="soundToggleTraining" style="text-align:center;margin:0 auto 8px auto;">
 <span id="soundToggleLabelTraining" onclick="toggleMinuteSound()" style="cursor:pointer;font-size:12px;font-family:Arial,sans-serif;color:#2ecc71;">Zvuk kraja minute = UKLJU&#268;EN</span>
 </div>
+
+<button id="repeatBtn" class="white-btn hidden" onclick="resetProgram()">
+PONOVI VJEŽBANJE
+</button>
 
 <div id="startButtons">
 <button id="startStopBtn" class="main-btn hidden" onclick="toggleTraining()">
@@ -796,7 +796,62 @@ interval=setInterval(mainLoop,1000);
 }
 
 function resetProgram(){
-location.reload();
+/* Zaustavi interval ako radi */
+clearInterval(interval);
+/* Resetiraj sve varijable treninga */
+totalEtape=0;
+currentEtapa=1;
+phase=0;
+seconds=0;
+totalSeconds=0;
+totalPlannedSeconds=0;
+cooldownEndSeconds=0;
+interval=null;
+running=false;
+inCooldown=false;
+cooldownMinute=0;
+/* testMode i phaseDuration ostaju (autorski klik) */
+
+/* Resetiraj UI treninga */
+document.getElementById("phaseLabel").innerText="PRIPREMA";
+document.getElementById("phaseLabel").style.color="white";
+document.getElementById("totalTime").innerText="00:00";
+document.getElementById("remainingTime").innerText="00:00";
+document.getElementById("currentEtapa").innerText="1";
+document.getElementById("totalEtapaDisplay").innerText="0";
+document.getElementById("etapaProgress").innerHTML="";
+["c1","c2","c3"].forEach(function(id){
+  var c=document.getElementById(id);
+  c.className="circle exercise";
+});
+document.getElementById("c3").className="circle rest";
+["f1","f2","f3"].forEach(function(id){
+  var f=document.getElementById(id);
+  f.style.transition="none";
+  f.style.height="0%";
+});
+document.getElementById("startStopBtn").innerText="START";
+document.getElementById("startStopBtn").className="main-btn";
+document.getElementById("startStopBtn").classList.add("hidden");
+document.getElementById("prekidBtn").classList.add("hidden");
+document.getElementById("repeatBtn").classList.add("hidden");
+document.getElementById("pauseOptions").classList.add("hidden");
+
+/* Sinkroniziraj label zvuka na ekranu odabira prema trenutnom stanju */
+var lbl=document.getElementById("soundToggleLabel");
+if(lbl){
+  if(minuteSoundEnabled){
+    lbl.style.color="#2ecc71";
+    lbl.innerText="Zvuk kraja minute = UKLJU\u010cEN";
+  }else{
+    lbl.style.color="orange";
+    lbl.innerText="Zvuk kraja minute = ISKLJU\u010cEN";
+  }
+}
+
+/* Prikaži ekran odabira, sakrij trening */
+document.getElementById("trainingArea").classList.add("hidden");
+document.getElementById("etapeSelection").classList.remove("hidden");
 }
 
 function formatTime(sec){
