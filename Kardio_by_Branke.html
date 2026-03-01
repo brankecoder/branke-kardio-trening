@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kardio Trening v3.25</title>
+<title>Kardio Trening v3.27</title>
 
 <style>
 
@@ -155,6 +155,17 @@ background:rgba(0,0,0,0.35);
 transition:height 1s linear;
 }
 
+.circle-svg{
+position:absolute;
+top:0;left:0;
+width:100%;height:100%;
+pointer-events:none;
+}
+
+.fill-pie{
+fill:rgba(0,0,0,0.38);
+}
+
 .info{
 font-size:21.6px;
 margin:18px 10px 10px 10px;
@@ -250,7 +261,7 @@ border-color:#e74c3c;
 <h1 id="mainTitle" style="margin-top:20px;margin-bottom:2px;text-align:left;">
 KARDIO TRENING 
 <span class="version">
-v3.26
+v3.27
 <a href="https://youtu.be/5qAVh30ElvM?si=59BPaG-FaY_l5Otk" target="_blank"></a>
 </span>
 </h1>
@@ -319,7 +330,8 @@ YouTube link
 <div style="margin-top:15px;margin-bottom:4px;font-size:18px;">
 Odaberi broj etapa vožnje sobnog bicikla:
 </div>
-<div style="text-align:right;margin-bottom:8px;">
+<div style="text-align:right;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;gap:16px;">
+<span id="fillModeLabel" onclick="toggleFillMode()" style="cursor:pointer;font-size:12px;color:#2ecc71;font-family:Arial,sans-serif;">Način punjenja: SAT</span>
 <span id="soundToggleLabel" onclick="toggleMinuteSound()" style="cursor:pointer;font-size:12px;color:#2ecc71;font-family:Arial,sans-serif;">Zvuk kraja minute = UKLJU&#268;EN</span>
 </div>
 </div>
@@ -383,9 +395,9 @@ Branke@Whatsapp kontakt
 <div class="total-time">Vrijeme treniranja: <span id="totalTime">00:00</span></div>
 
 <div class="circles">
-<div class="circle exercise" id="c1"><div class="fill" id="f1"></div></div>
-<div class="circle exercise" id="c2"><div class="fill" id="f2"></div></div>
-<div class="circle rest" id="c3"><div class="fill" id="f3"></div></div>
+<div class="circle exercise" id="c1"><div class="fill" id="f1"></div><svg class="circle-svg" viewBox="0 0 90 90" id="svg1"><path class="fill-pie" id="pie1" d=""/></svg></div>
+<div class="circle exercise" id="c2"><div class="fill" id="f2"></div><svg class="circle-svg" viewBox="0 0 90 90" id="svg2"><path class="fill-pie" id="pie2" d=""/></svg></div>
+<div class="circle rest" id="c3"><div class="fill" id="f3"></div><svg class="circle-svg" viewBox="0 0 90 90" id="svg3"><path class="fill-pie" id="pie3" d=""/></svg></div>
 </div>
 
 <div class="remaining-time">
@@ -398,7 +410,8 @@ Etapa <span id="currentEtapa">1</span> / <span id="totalEtapaDisplay">0</span>
 
 <div class="etapa-progress" id="etapaProgress"></div>
 
-<div id="soundToggleTraining" style="text-align:center;margin:0 auto 8px auto;">
+<div id="soundToggleTraining" style="text-align:center;margin:0 auto 8px auto;display:flex;justify-content:center;gap:20px;align-items:center;">
+<span id="fillModeLabelTraining" onclick="toggleFillMode()" style="cursor:pointer;font-size:12px;font-family:Arial,sans-serif;color:#2ecc71;">Način punjenja: SAT</span>
 <span id="soundToggleLabelTraining" onclick="toggleMinuteSound()" style="cursor:pointer;font-size:12px;font-family:Arial,sans-serif;color:#2ecc71;">Zvuk kraja minute = UKLJU&#268;EN</span>
 </div>
 
@@ -443,6 +456,7 @@ let phaseDuration=60; /* testni mod: 10s, normalni: 60s */
 let testMode=false;
 let authorYellow=false;
 let minuteSoundEnabled=true;
+let fillMode='sat'; /* 'sat' = pie animacija, 'voda' = punjenje odozdo */
 
 function toggleMinuteSound(){
   minuteSoundEnabled=!minuteSoundEnabled;
@@ -457,8 +471,47 @@ function toggleMinuteSound(){
   }
 }
 
+function toggleFillMode(){
+  fillMode=(fillMode==='sat')?'voda':'sat';
+  var lbl=document.getElementById("fillModeLabel");
+  var lbl2=document.getElementById("fillModeLabelTraining");
+
+  /* Izračunaj trenutni postotak aktivne faze */
+  var currentPct=(phaseDuration>0)?(seconds/phaseDuration)*100:0;
+  var activeIdx=inCooldown?(cooldownMinute+1):(phase+1);
+
+  if(fillMode==='sat'){
+    if(lbl){ lbl.style.color="#2ecc71"; lbl.innerText="Način punjenja: SAT"; }
+    if(lbl2){ lbl2.style.color="#2ecc71"; lbl2.innerText="Način punjenja: SAT"; }
+    /* Sakrij fill div aktivne faze */
+    var fEl=document.getElementById("f"+activeIdx);
+    if(fEl){ fEl.style.transition="none"; fEl.style.height="0%"; }
+    /* Pie će RAF odmah postaviti na currentPct */
+  }else{
+    if(lbl){ lbl.style.color="orange"; lbl.innerText="Način punjenja: VODA"; }
+    if(lbl2){ lbl2.style.color="orange"; lbl2.innerText="Način punjenja: VODA"; }
+    /* Sakrij pie aktivne faze */
+    setPiePath("pie"+activeIdx, 0);
+    /* Fill div na trenutni postotak – RAF će nastaviti ažurirati */
+    var fEl=document.getElementById("f"+activeIdx);
+    if(fEl){ fEl.style.transition="none"; fEl.style.height=currentPct+"%"; }
+  }
+  /* RAF nastavlja teći, samo mijenja što ažurira */
+}
+
+function setPiePath(pieId, pct){
+  var path=document.getElementById(pieId);
+  if(!path) return;
+  if(pct<=0){ path.setAttribute('d',''); return; }
+  if(pct>=100){ path.setAttribute('d','M45,45 m-45,0 a45,45 0 1,0 90,0 a45,45 0 1,0 -90,0'); return; }
+  var angle=(pct/100)*2*Math.PI - Math.PI/2;
+  var x=45+45*Math.cos(angle);
+  var y=45+45*Math.sin(angle);
+  var large=pct>50?1:0;
+  path.setAttribute('d','M45,45 L45,0 A45,45 0 '+large+',1 '+x+','+y+' Z');
+}
+
 function authorClick(){
-/* Samo na ekranu odabira etapa */
 if(!document.getElementById("etapeSelection").classList.contains("hidden")){
 authorYellow=!authorYellow;
 const lbl=document.getElementById("authorLabel");
@@ -657,6 +710,38 @@ el.style.height="0%";
 /* Forsirani reflow da browser "vidi" promjenu prije vraćanja tranzicije */
 el.getBoundingClientRect();
 el.style.transition="height 1s linear";
+/* Reset pie also */
+var pieId=id.replace('f','pie');
+setPiePath(pieId,0);
+}
+
+/* RAF za fluidizirane SAT animaciju */
+var rafId=null;
+var phaseStartTime=null; /* timestamp kada je faza počela */
+
+function startRAF(){
+if(rafId) cancelAnimationFrame(rafId);
+phaseStartTime=performance.now()-(seconds*1000);
+rafLoop();
+}
+
+function stopRAF(){
+if(rafId){ cancelAnimationFrame(rafId); rafId=null; }
+}
+
+function rafLoop(){
+if(!running){ rafId=null; return; }
+var now=performance.now();
+var elapsed=(now-phaseStartTime)/1000;
+var pct=Math.min((elapsed/phaseDuration)*100,100);
+var activeIdx=inCooldown?(cooldownMinute+1):(phase+1);
+if(fillMode==='sat'){
+  setPiePath("pie"+activeIdx, pct);
+}else{
+  var el=document.getElementById("f"+activeIdx);
+  if(el){ el.style.transition="none"; el.style.height=pct+"%"; }
+}
+rafId=requestAnimationFrame(rafLoop);
 }
 
 function tick(){
@@ -668,15 +753,23 @@ document.getElementById("totalTime").innerText=formatTime(totalSeconds);
 
 let maxPhase=(currentEtapa>=totalEtape)?1:2;
 
-document.getElementById("f"+(phase+1)).style.height=((seconds/phaseDuration)*100)+"%";
-
 if(seconds>=phaseDuration){
 let filledPhase=phase;
 let beepType=(filledPhase===2)?'pulse':'long';
 console.log("ZVUK tick: filledPhase="+filledPhase+" beepType="+beepType+" etapa="+currentEtapa+"/"+totalEtape+" maxPhase="+maxPhase);
 playBeep(beepType);
-document.getElementById("f"+(filledPhase+1)).style.height="100%";
+/* Označi fazu kao 100% napunjenu */
+if(fillMode==='sat'){
+  setPiePath("pie"+(filledPhase+1),100);
+  var fEl=document.getElementById("f"+(filledPhase+1));
+  if(fEl){ fEl.style.transition="none"; fEl.style.height="0%"; }
+}else{
+  var fEl=document.getElementById("f"+(filledPhase+1));
+  if(fEl){ fEl.style.transition="none"; fEl.style.height="100%"; }
+  setPiePath("pie"+(filledPhase+1),0);
+}
 seconds=0;
+phaseStartTime=performance.now();
 phase++;
 
 if(phase>maxPhase){
@@ -684,6 +777,7 @@ phase=0;
 resetFill("f1");
 resetFill("f2");
 resetFill("f3");
+phaseStartTime=performance.now();
 if(currentEtapa>=totalEtape){
 startCooldown();
 return;
@@ -724,18 +818,26 @@ seconds++;
 totalSeconds++;
 updateRemaining();
 document.getElementById("totalTime").innerText=formatTime(totalSeconds);
-let percent=(seconds/phaseDuration)*100;
-document.getElementById("f"+(cooldownMinute+1)).style.height=percent+"%";
 
 if(seconds>=phaseDuration){
 console.log("ZVUK cooldown: cooldownMinute="+cooldownMinute);
 playBeep('long');
-document.getElementById("f"+(cooldownMinute+1)).style.height="100%";
+if(fillMode==='sat'){
+  setPiePath("pie"+(cooldownMinute+1),100);
+  var fEl=document.getElementById("f"+(cooldownMinute+1));
+  if(fEl){ fEl.style.transition="none"; fEl.style.height="0%"; }
+}else{
+  var fEl=document.getElementById("f"+(cooldownMinute+1));
+  if(fEl){ fEl.style.transition="none"; fEl.style.height="100%"; }
+  setPiePath("pie"+(cooldownMinute+1),0);
+}
 seconds=0;
+phaseStartTime=performance.now();
 cooldownMinute++;
 
 if(cooldownMinute>=3){
 clearInterval(interval);
+stopRAF();
 updateLabel("Bravo trening završen!","#2ecc71");
 document.getElementById("startStopBtn").classList.add("hidden");
 document.getElementById("prekidBtn").classList.add("hidden");
@@ -772,6 +874,7 @@ updateLabel("VJEŽBAJ!","#2ecc71");
 updateCirclesForEtapa();
 updateEtapaProgress();
 interval=setInterval(mainLoop,1000);
+phaseStartTime=performance.now(); startRAF();
 }else{
 pauseTraining();
 }
@@ -780,6 +883,7 @@ pauseTraining();
 function pauseTraining(){
 running=false;
 clearInterval(interval);
+stopRAF();
 document.getElementById("startStopBtn").classList.add("hidden");
 document.getElementById("pauseOptions").classList.remove("hidden");
 }
@@ -793,11 +897,13 @@ document.getElementById("prekidBtn").classList.add("hidden");
 document.getElementById("startStopBtn").innerText="ZAUSTAVI";
 document.getElementById("startStopBtn").className="stop-btn";
 interval=setInterval(mainLoop,1000);
+phaseStartTime=performance.now()-(seconds*1000); startRAF();
 }
 
 function resetProgram(){
 /* Zaustavi interval ako radi */
 clearInterval(interval);
+stopRAF();
 /* Resetiraj sve varijable treninga */
 totalEtape=0;
 currentEtapa=1;
