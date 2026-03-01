@@ -97,8 +97,26 @@ color:black;
 font-weight:bold;
 }
 
-.hidden{
-display:none;
+#techSpecContent h1{font-size:18px;color:#87ceeb;margin:16px 0 6px 0;}
+#techSpecContent h2{font-size:15px;color:#87ceeb;margin:14px 0 4px 0;border-bottom:1px solid #333;padding-bottom:3px;}
+#techSpecContent h3{font-size:13px;color:#aad4f0;margin:10px 0 3px 0;}
+#techSpecContent h4{font-size:12px;color:#aad4f0;margin:8px 0 3px 0;}
+#techSpecContent p{margin:4px 0 8px 0;}
+#techSpecContent ul,#techSpecContent ol{margin:4px 0 8px 16px;padding:0;}
+#techSpecContent li{margin:2px 0;}
+#techSpecContent strong{color:#fff;}
+#techSpecContent a{color:#2ecc71;}
+#techSpecContent hr{border:none;border-top:1px solid #333;margin:10px 0;}
+#techSpecContent blockquote{border-left:3px solid #87ceeb;margin:6px 0;padding:4px 10px;color:#aaa;font-style:italic;}
+#techSpecContent code{background:#222;padding:1px 4px;border-radius:3px;font-size:11px;color:#e67e22;}
+#techSpecContent pre{background:#222;padding:8px;border-radius:4px;overflow-x:auto;margin:6px 0;}
+#techSpecContent pre code{background:none;padding:0;color:#e67e22;}
+#techSpecContent table{border-collapse:collapse;width:100%;margin:8px 0;font-size:12px;}
+#techSpecContent th{background:#222;color:#87ceeb;padding:5px 8px;border:1px solid #444;text-align:left;}
+#techSpecContent td{padding:4px 8px;border:1px solid #333;}
+#techSpecContent tr:nth-child(even){background:#1a1a1a;}
+
+.hidden{display:none;
 }
 
 .phase-label{
@@ -258,9 +276,10 @@ border-color:#e74c3c;
 <body>
 
 <div style="display:inline-block;text-align:left;padding:0 16px;position:relative;">
-<h1 id="mainTitle" style="margin-top:20px;margin-bottom:2px;text-align:left;">
+<h1 id="mainTitle" style="margin-top:20px;margin-bottom:2px;text-align:left;position:relative;">
 KARDIO TRENING 
-<span class="version">
+<span class="version" style="position:relative;">
+<span id="techSpecBtn" onclick="showTechSpec()" style="position:absolute;bottom:100%;left:50%;transform:translateX(-50%);font-size:10px;color:#5a9ab5;cursor:pointer;font-weight:normal;font-family:Arial,sans-serif;white-space:nowrap;line-height:1.2;">Tech Spec</span>
 v3.27
 <a href="https://youtu.be/5qAVh30ElvM?si=59BPaG-FaY_l5Otk" target="_blank"></a>
 </span>
@@ -291,9 +310,253 @@ function alignAuthor(){
 }
 </script>
 
-<div class="container">
+<script>
+/* ===== TECH SPEC / README ===== */
+var README_MD = `# 🚴 Kardio Trening v3.27
+
+**Web aplikacija za vođenje kardio treninga na sobnom biciklu**, nastala tijekom kardio rehabilitacije (veljača 2026).
+
+> *"Tko se sa mnom druži, život mu je duži!"*
+
+Autor: **Branke** · [WhatsApp kontakt](https://wa.me/385994626921) · [Revolut donacija](https://revolut.me/brankebananke)
+
+---
+
+## O aplikaciji
+
+Kardio Trening je jednostavna, besplatna aplikacija u obliku jedne HTML datoteke. Ne zahtijeva instalaciju ni internet vezu — dovoljno je otvoriti datoteku u pregledniku. Namijenjena je za praćenje intervalnog kardio treninga na sobnom biciklu uz vizualni i zvučni feedback.
+
+---
+
+## Pokretanje
+
+1. Preuzmi datoteku \`Kardio_by_Branke_v3_27.html\`
+2. Otvori je u bilo kojem modernom pregledniku (Chrome, Firefox, Safari, Edge)
+3. Nema instalacije, nema registracije, radi offline
+
+> 📱 Radi i na mobitelu — responzivan dizajn prilagođen ekranima svih veličina.
+
+---
+
+## Kako koristiti
+
+### 1. Odabir broja etapa
+
+Na početnom ekranu odaberi broj etapa vožnje sobnog bicikla — dostupno od **3 do 12 etapa**.
+
+- Preporučuje se početi s **4 etape** i postupno povećavati do maksimalnih 12
+- Svaka etapa traje 3 minute (2× vježbanje + 1× odmor)
+- Zadnja etapa nema odmor — trening završava nakon druge faze vježbanja
+
+### 2. Postavljanje opcija (prije ili tijekom treninga)
+
+Prije pokretanja ili u tijeku treninga možeš podesiti:
+
+- **Način punjenja** — odabir vizualnog prikaza napretka (vidi dolje)
+- **Zvuk kraja minute** — uključivanje/isključivanje zvučnog signala
+
+### 3. Pokretanje treninga
+
+Pritisni zeleni gumb **START** da pokreneš trening.
+
+Tijekom treninga:
+- Zeleni natpis **VJEŽBAJ!** označava fazu vježbanja
+- Crveni natpis **ODMARAJ!** označava fazu odmora
+- Plavi natpis **OPUŠTANJE** označava završnu fazu opuštanja
+
+### 4. Pauza i nastavak
+
+Pritisni **ZAUSTAVI** za pauziranje. Zatim:
+- **NASTAVI** — nastavlja trening od mjesta zaustavljanja
+- **PREKID** — vraća na početni ekran za odabir etapa
+
+### 5. Završetak
+
+Po završetku svih etapa i faze opuštanja pojavljuje se poruka **"Bravo trening završen!"** i gumb **PONOVI VJEŽBANJE** za novi krug.
+
+---
+
+## Funkcionalnosti
+
+### 🔵 Vizualni prikaz napretka — tri kruga
+
+Tri kruga prikazuju napredak svake od tri faze unutar etape:
+- **Krug 1 (zeleni)** — prva minuta vježbanja
+- **Krug 2 (zeleni)** — druga minuta vježbanja
+- **Krug 3 (crveni)** — minuta odmora (skriven u zadnjoj etapi)
+
+Za faze opuštanja sva tri kruga postaju **plava**.
+
+#### Načini punjenja (klik na "Način punjenja")
+
+| Način | Boja teksta | Opis |
+|-------|-------------|------|
+| **SAT** | 🟢 zelena | Tamni sektor napreduje poput kazaljke sata (pie animacija) |
+| **VODA** | 🟠 narančasta | Tamna sjena se puni odozdo prema gore |
+
+Animacija je fluidna u oba načina (~60 fps). Promjena načina moguća je i **u tijeku treninga** — već napunjeni krugovi ostaju napunjeni.
+
+### 🔊 Zvučni signali
+
+Na kraju svake faze oglašava se zvučni signal:
+- **Dugi beep** — kraj faze vježbanja ili opuštanja
+- **4 kratka pulsa** — kraj faze odmora
+
+Zvuk se može isključiti klikom na tekst **"Zvuk kraja minute"** (postaje narančast kad je isključen).
+
+### 📊 Traka napretka etapa
+
+Ispod krugova prikazuje se redak pravokutnika koji vizualno prate napredak kroz etape:
+- **Zelena** — završena etapa
+- **Žuta** — pretposljednja etapa (upozorenje)
+- **Crvena** — zadnja etapa
+
+### ⏱️ Mjerenje vremena
+
+- **Vrijeme treniranja** — ukupno proteklo vrijeme od starta
+- **Preostalo vrijeme** — koliko vremena ostaje do kraja (uključujući opuštanje)
+
+### 📱 Wake Lock
+
+Aplikacija automatski sprječava gašenje zaslona mobilnog uređaja tijekom treninga.
+
+### 📱 QR kod
+
+Klikom na **"QR kod"** (žuti tekst) generira se QR kod za dijeljenje aplikacije.
+
+---
+
+## Struktura treninga
+
+Svaki dnevni kardio trening preporučuje se sastavljati od:
+
+1. **Jutarnja tjelovježba** ([YouTube link](https://youtu.be/EkyuoWBDIo0?si=M5GQf5lPK3YvOvsk)) — 30 minuta
+2. **Prijepodnevna vožnja** sobnog bicikla — ovaj program
+3. **Popodnevna vožnja** sobnog bicikla — ovaj program
+
+### Interval po etapi
+
+\`\`\`
+[ VJEŽBAJ 1 min ] → [ VJEŽBAJ 1 min ] → [ ODMORI 1 min ] → sljedeća etapa
+\`\`\`
+
+Zadnja etapa:
+\`\`\`
+[ VJEŽBAJ 1 min ] → [ VJEŽBAJ 1 min ] → [ OPUŠTANJE 3 min ]
+\`\`\`
+
+### Trajanje treninga po broju etapa
+
+| Etape | Trajanje (bez opuštanja) | Ukupno (s opuštanjem) |
+|-------|--------------------------|------------------------|
+| 3 | 5 min | 8 min |
+| 4 | 7 min | 10 min |
+| 6 | 11 min | 14 min |
+| 8 | 15 min | 18 min |
+| 10 | 19 min | 22 min |
+| 12 | 23 min | 26 min |
+
+---
+
+## Napomene
+
+- ⚠️ Prije početka vježbanja savjetujte se s liječnikom.
+- 🔰 Vježbe započnite lagano i postupno pojačavajte.
+- 🚴 Sobni bicikl: preporučuje se srednje opterećenje i tempo oko **60 okretaja/min (≈15 km/h)**.
+- 💻 Aplikacija ne prikuplja podatke, ne treba internet i radi lokalno u pregledniku.
+
+---
+
+## Verzije
+
+| Verzija | Opis |
+|---------|------|
+| v3.27 | SAT način punjenja (pie animacija), fluidna animacija za oba načina (RAF), popravak zvuka |
+| v3.26 | Način punjenja krugova (SAT/VODA), toggle između načina |
+| v3.25 | Prethodna stabilna verzija |
+
+---
+
+## Licenca
+
+Aplikacija je potpuno **besplatna** za osobnu upotrebu.
+Ako ti je korisna, možeš pokazati zahvalnost donacijom na [Revolut](https://revolut.me/brankebananke). 🙏
+`;
+
+function simpleMarkdown(md){
+  var h = md
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    // headings
+    .replace(/^#### (.+)$/gm,'<h4>$1</h4>')
+    .replace(/^### (.+)$/gm,'<h3>$1</h3>')
+    .replace(/^## (.+)$/gm,'<h2>$1</h2>')
+    .replace(/^# (.+)$/gm,'<h1>$1</h1>')
+    // hr
+    .replace(/^---$/gm,'<hr>')
+    // blockquote
+    .replace(/^&gt; (.+)$/gm,'<blockquote>$1</blockquote>')
+    // code blocks
+    .replace(/```[\w]*\n([\s\S]*?)```/gm,function(_,c){return '<pre><code>'+c+'</code></pre>';})
+    // inline code
+    .replace(/`([^`]+)`/g,'<code>$1</code>')
+    // bold
+    .replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>')
+    // italic
+    .replace(/\*([^*]+)\*/g,'<em>$1</em>')
+    // links
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g,'<a href="$2" target="_blank">$1</a>')
+    // tables
+    .replace(/(\|.+\|\n\|[-| :]+\|\n(?:\|.+\|\n?)+)/g, function(t){
+      var rows = t.trim().split('\n');
+      var html = '<table>';
+      rows.forEach(function(r,i){
+        if(i===1) return; // separator
+        var cells = r.replace(/^\||\|$/g,'').split('|');
+        var tag = i===0?'th':'td';
+        html += '<tr>'+cells.map(function(c){return '<'+tag+'>'+c.trim()+'</'+tag+'>';}).join('')+'</tr>';
+      });
+      return html+'</table>';
+    })
+    // unordered lists
+    .replace(/((?:^- .+\n?)+)/gm, function(block){
+      var items = block.trim().split('\n').map(function(l){return '<li>'+l.replace(/^- /,'')+'</li>';});
+      return '<ul>'+items.join('')+'</ul>';
+    })
+    // ordered lists
+    .replace(/((?:^\d+\. .+\n?)+)/gm, function(block){
+      var items = block.trim().split('\n').map(function(l){return '<li>'+l.replace(/^\d+\. /,'')+'</li>';});
+      return '<ol>'+items.join('')+'</ol>';
+    })
+    // paragraphs (lines not already wrapped in tags)
+    .replace(/^(?!<[a-z])(.+)$/gm,'<p>$1</p>')
+    .replace(/<p><\/p>/g,'');
+  return h;
+}
+
+function showTechSpec(){
+  document.getElementById('techSpecContent').innerHTML = simpleMarkdown(README_MD);
+  document.getElementById('qrView').classList.add('hidden');
+  document.getElementById('selectionView').classList.add('hidden');
+  document.getElementById('techSpecView').classList.remove('hidden');
+  document.getElementById('techSpecBtn').style.display='none';
+}
+
+function hideTechSpec(){
+  document.getElementById('techSpecView').classList.add('hidden');
+  document.getElementById('selectionView').classList.remove('hidden');
+  document.getElementById('techSpecBtn').style.display='';
+}
+</script>
 
 <div id="etapeSelection">
+
+<!-- Tech Spec prikaz -->
+<div id="techSpecView" class="hidden" style="padding:10px 16px;max-width:600px;text-align:left;">
+<div id="techSpecContent" style="font-size:13px;line-height:1.6;color:#ddd;"></div>
+<div style="margin-top:20px;text-align:center;">
+<button class="green-btn" onclick="hideTechSpec()">POVRATAK</button>
+</div>
+</div>
 
 <!-- QR kod prikaz -->
 <div id="qrView" class="hidden" style="padding:20px 10px;">
@@ -619,6 +882,7 @@ document.getElementById("etapeSelection").classList.add("hidden");
 document.getElementById("trainingArea").classList.remove("hidden");
 document.getElementById("startStopBtn").classList.remove("hidden");
 document.getElementById("prekidBtn").classList.remove("hidden");
+document.getElementById("techSpecBtn").style.display="none";
 buildEtapaProgress();
 /* Sync sound toggle label in training area */
 var lbl2=document.getElementById("soundToggleLabelTraining");
@@ -958,6 +1222,7 @@ if(lbl){
 /* Prikaži ekran odabira, sakrij trening */
 document.getElementById("trainingArea").classList.add("hidden");
 document.getElementById("etapeSelection").classList.remove("hidden");
+document.getElementById("techSpecBtn").style.display="";
 }
 
 function formatTime(sec){
