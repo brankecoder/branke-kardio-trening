@@ -1,8 +1,8 @@
-# 🚴 Kardio Trening v3.32
+# 🚴 Kardio Trening v3.35
 
 **Web aplikacija za vođenje kardio treninga na sobnom biciklu**, nastala tijekom kardio rehabilitacije (veljača 2026).
 
-> *"Tko se sa mnom druži, život mu je duži!"*
+> *„Tko se sa mnom druži, život mu je duži!"*
 
 Autor: **Branke** · [WhatsApp kontakt](https://chat.whatsapp.com/DK3BTdtSjNCEuNgB5NdfAH?mode=hq1tcla) · [Revolut donacija](https://revolut.me/brankebananke)
 
@@ -16,7 +16,7 @@ Kardio Trening je jednostavna, besplatna aplikacija u obliku jedne HTML datoteke
 
 ## Pokretanje
 
-1. Preuzmi datoteku `Kardio_by_Branke_v3_32.html`
+1. Preuzmi datoteku `Kardio_by_Branke_v3_35.html`
 2. Otvori je u bilo kojem modernom pregledniku (Chrome, Firefox, Safari, Edge)
 3. Nema instalacije, nema registracije, radi offline
 
@@ -58,7 +58,7 @@ Pritisni **ZAUSTAVI** za pauziranje. Zatim:
 
 ### 5. Završetak
 
-Po završetku svih etapa i faze opuštanja pojavljuje se poruka **"Bravo trening je završen!"** i gumb **PONOVI VJEŽBANJE** za novi krug.
+Po završetku svih etapa i faze opuštanja pojavljuje se poruka **„Bravo trening je završen!"** i gumb **PONOVI VJEŽBANJE** za novi krug.
 
 ---
 
@@ -73,7 +73,7 @@ Tri kruga prikazuju napredak svake od tri faze unutar etape:
 
 Za faze opuštanja sva tri kruga postaju **plava**.
 
-#### Načini punjenja (klik na "Način punjenja")
+#### Načini punjenja (klik na „Način punjenja")
 
 | Način | Boja teksta | Opis |
 |-------|-------------|------|
@@ -82,13 +82,14 @@ Za faze opuštanja sva tri kruga postaju **plava**.
 
 Animacija je fluidna u oba načina (~60 fps). Promjena načina moguća je i **u tijeku treninga** — već napunjeni krugovi ostaju napunjeni.
 
-### 🔊 Zvučni signali
+### 🔊 Glasovni i zvučni signali
 
-Na kraju svake faze oglašava se zvučni signal:
-- **Dugi beep** — kraj prve minute vježbanja, kraj odmora, kraj opuštanja
-- **4 kratka pulsa** — kraj druge minute vježbanja
+Na kraju svake etape oglašava se signal prema odabranom načinu zvuka:
+- **GLAS** (zadano) — sintetski govor na hrvatskom izgovara npr. *„Prva etapa završena"*, *„Druga etapa završena"* itd., a na kraju *„Sve etape završene!"*
+- **BEEP** — zvučni signal (dugi beep / 4 kratka pulsa)
+- **ISKLJ.** — bez zvuka
 
-Zvuk se može isključiti klikom na tekst **"Zvuk minute"** (postaje narančast kad je isključen).
+Redoslijed prebacivanja: **GLAS → BEEP → ISKLJ. → GLAS…**
 
 ### 📊 Traka napretka etapa
 
@@ -99,7 +100,7 @@ Ispod krugova prikazuje se redak pravokutnika koji vizualno prate napredak kroz 
 
 ### ⏱️ Mjerenje vremena
 
-- **Vrijeme treniranja** — ukupno proteklo vrijeme aktivnog vježbanja (tijek samo u fazi VJEŽBAJ!; zaustavlja se u ODMARAJ! i OPUŠTANJE!)
+- **Vrijeme treniranja** — ukupno proteklo aktivno vrijeme (ne broji odmor)
 - **Preostalo vrijeme** — koliko vremena ostaje do kraja (uključujući opuštanje)
 
 ### 📱 Wake Lock
@@ -108,7 +109,7 @@ Aplikacija automatski sprječava gašenje zaslona mobilnog uređaja tijekom tren
 
 ### 📱 QR kod
 
-Klikom na **"QR kod"** (žuti tekst) generira se QR kod za dijeljenje aplikacije.
+Klikom na **„QR kod"** (žuti tekst) generira se QR kod za dijeljenje aplikacije.
 
 ---
 
@@ -157,13 +158,13 @@ Zadnja etapa:
 
 | Verzija | Opis |
 |---------|------|
-| v3.32 | Zvuk promijenjen: pulsirajući beep (4 pulsa) na kraju 2. minute vježbanja; dugi beep na kraju 1. minute vježbanja i na kraju odmora; auto-skaliranje ako je app prevelika za ekran; onemogućen zoom s dva prsta (pinch-to-zoom) na mobitelu |
-| v3.31 | Dodana ikona aplikacije (favicon) — pri kreiranju prečaca na radnoj površini prikazuje se ikona s kardio biciklom; ikona ugrađena direktno u HTML kao Base64 |
-| v3.30 | Vrijeme treniranja zaustavlja se u fazama ODMARAJ! i OPUŠTANJE! (broji samo aktivno vježbanje); tekst "Zvuk kraja minute" → "Zvuk minute"; poruka "Bravo trening završen!" → "Bravo trening je završen!"; label OPUŠTANJE → OPUŠTANJE! |
-| v3.29 | WhatsApp link zamijenjen grupom (Kardio Trening Grupa@Whatsapp), verzija povećana na v3.29 |
-| v3.27 | SAT način punjenja (pie animacija), fluidna animacija za oba načina (RAF), popravak zvuka |
-| v3.26 | Način punjenja krugova (SAT/VODA), toggle između načina |
-| v3.25 | Prethodna stabilna verzija |
+| v3.35 | Glasovni signal izgovara „Prva **etapa** završena" umjesto „Prva **faza** završena" |
+| v3.34 | Glasovni signal (GLAS) kao default; redoslijed: GLAS→BEEP→ISKLJ.; u GLAS modu bez beep-a na kraju faze |
+| v3.33 | Tri stanja zvuka: BEEP/ISKLJ./GLAS; GLAS = sinteza govora (hr) izgovara završetak etape i „Sve etape završene!" |
+| v3.32 | Pulsirajući beep (4 pulsa) na kraju 2. min; auto-skaliranje; onemogućen pinch-zoom |
+| v3.31 | Favicon (kardio bicikl) ugrađen kao Base64 |
+| v3.30 | Sat treniranja broji samo aktivno vježbanje; manje ispravke teksta |
+| v3.27–29 | SAT/VODA animacija, WhatsApp grupa, popravci |
 
 ---
 
