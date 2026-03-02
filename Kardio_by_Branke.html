@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kardio Trening v3.29</title>
+<title>Kardio Trening v3.30</title>
 
 <style>
 
@@ -280,7 +280,7 @@ border-color:#e74c3c;
 KARDIO TRENING 
 <span class="version" style="position:relative;">
 <span id="techSpecBtn" onclick="showTechSpec()" style="position:absolute;bottom:100%;left:50%;transform:translateX(-50%);font-size:10px;color:#5a9ab5;cursor:pointer;font-weight:normal;font-family:Arial,sans-serif;white-space:nowrap;line-height:1.2;">Tech Spec</span>
-v3.29
+v3.30
 <a href="https://youtu.be/5qAVh30ElvM?si=59BPaG-FaY_l5Otk" target="_blank"></a>
 </span>
 </h1>
@@ -312,7 +312,7 @@ function alignAuthor(){
 
 <script>
 /* ===== TECH SPEC / README ===== */
-var README_MD = `# 🚴 Kardio Trening v3.29
+var README_MD = `# 🚴 Kardio Trening v3.30
 
 **Web aplikacija za vođenje kardio treninga na sobnom biciklu**, nastala tijekom kardio rehabilitacije (veljača 2026).
 
@@ -330,7 +330,7 @@ Kardio Trening je jednostavna, besplatna aplikacija u obliku jedne HTML datoteke
 
 ## Pokretanje
 
-1. Preuzmi datoteku \`Kardio_by_Branke_v3_29.html\`
+1. Preuzmi datoteku \`Kardio_by_Branke_v3_30.html\`
 2. Otvori je u bilo kojem modernom pregledniku (Chrome, Firefox, Safari, Edge)
 3. Nema instalacije, nema registracije, radi offline
 
@@ -353,7 +353,7 @@ Na početnom ekranu odaberi broj etapa vožnje sobnog bicikla — dostupno od **
 Prije pokretanja ili u tijeku treninga možeš podesiti:
 
 - **Način punjenja** — odabir vizualnog prikaza napretka (vidi dolje)
-- **Zvuk kraja minute** — uključivanje/isključivanje zvučnog signala
+- **Zvuk minute** — uključivanje/isključivanje zvučnog signala
 
 ### 3. Pokretanje treninga
 
@@ -362,7 +362,7 @@ Pritisni zeleni gumb **START** da pokreneš trening.
 Tijekom treninga:
 - Zeleni natpis **VJEŽBAJ!** označava fazu vježbanja
 - Crveni natpis **ODMARAJ!** označava fazu odmora
-- Plavi natpis **OPUŠTANJE** označava završnu fazu opuštanja
+- Plavi natpis **OPUŠTANJE!** označava završnu fazu opuštanja
 
 ### 4. Pauza i nastavak
 
@@ -372,7 +372,7 @@ Pritisni **ZAUSTAVI** za pauziranje. Zatim:
 
 ### 5. Završetak
 
-Po završetku svih etapa i faze opuštanja pojavljuje se poruka **"Bravo trening završen!"** i gumb **PONOVI VJEŽBANJE** za novi krug.
+Po završetku svih etapa i faze opuštanja pojavljuje se poruka **"Bravo trening je završen!"** i gumb **PONOVI VJEŽBANJE** za novi krug.
 
 ---
 
@@ -402,7 +402,7 @@ Na kraju svake faze oglašava se zvučni signal:
 - **Dugi beep** — kraj faze vježbanja ili opuštanja
 - **4 kratka pulsa** — kraj faze odmora
 
-Zvuk se može isključiti klikom na tekst **"Zvuk kraja minute"** (postaje narančast kad je isključen).
+Zvuk se može isključiti klikom na tekst **"Zvuk minute"** (postaje narančast kad je isključen).
 
 ### 📊 Traka napretka etapa
 
@@ -442,7 +442,7 @@ Svaki dnevni kardio trening preporučuje se sastavljati od:
 
 Zadnja etapa:
 \`\`\`
-[ VJEŽBAJ 1 min ] → [ VJEŽBAJ 1 min ] → [ OPUŠTANJE 3 min ]
+[ VJEŽBAJ 1 min ] → [ VJEŽBAJ 1 min ] → [ OPUŠTANJE! 3 min ]
 \`\`\`
 
 ### Trajanje treninga po broju etapa
@@ -471,6 +471,7 @@ Zadnja etapa:
 
 | Verzija | Opis |
 |---------|------|
+| v3.30 | Vrijeme treniranja zaustavlja se u fazama ODMARAJ! i OPUŠTANJE!; tekst "Zvuk kraja minute" → "Zvuk minute"; poruka "Bravo trening završen!" → "Bravo trening je završen!"; label OPUŠTANJE → OPUŠTANJE! |
 | v3.29 | WhatsApp link zamijenjen grupom (Kardio Trening Grupa@Whatsapp), verzija povećana na v3.29 |
 | v3.27 | SAT način punjenja (pie animacija), fluidna animacija za oba načina (RAF), popravak zvuka |
 | v3.26 | Način punjenja krugova (SAT/VODA), toggle između načina |
@@ -596,7 +597,7 @@ Odaberi broj etapa vožnje sobnog bicikla:
 </div>
 <div style="text-align:right;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;gap:16px;">
 <span id="fillModeLabel" onclick="toggleFillMode()" style="cursor:pointer;font-size:12px;color:#2ecc71;font-family:Arial,sans-serif;">Način punjenja: SAT</span>
-<span id="soundToggleLabel" onclick="toggleMinuteSound()" style="cursor:pointer;font-size:12px;color:#2ecc71;font-family:Arial,sans-serif;">Zvuk kraja minute = UKLJU&#268;EN</span>
+<span id="soundToggleLabel" onclick="toggleMinuteSound()" style="cursor:pointer;font-size:12px;color:#2ecc71;font-family:Arial,sans-serif;">Zvuk minute = UKLJU&#268;EN</span>
 </div>
 </div>
 
@@ -676,7 +677,7 @@ Etapa <span id="currentEtapa">1</span> / <span id="totalEtapaDisplay">0</span>
 
 <div id="soundToggleTraining" style="text-align:center;margin:0 auto 8px auto;display:flex;justify-content:center;gap:20px;align-items:center;">
 <span id="fillModeLabelTraining" onclick="toggleFillMode()" style="cursor:pointer;font-size:12px;font-family:Arial,sans-serif;color:#2ecc71;">Način punjenja: SAT</span>
-<span id="soundToggleLabelTraining" onclick="toggleMinuteSound()" style="cursor:pointer;font-size:12px;font-family:Arial,sans-serif;color:#2ecc71;">Zvuk kraja minute = UKLJU&#268;EN</span>
+<span id="soundToggleLabelTraining" onclick="toggleMinuteSound()" style="cursor:pointer;font-size:12px;font-family:Arial,sans-serif;color:#2ecc71;">Zvuk minute = UKLJU&#268;EN</span>
 </div>
 
 <button id="repeatBtn" class="white-btn hidden" onclick="resetProgram()">
@@ -708,6 +709,7 @@ let currentEtapa=1;
 let phase=0;
 let seconds=0;
 let totalSeconds=0;
+let trainingSeconds=0; /* samo sekunde u VJEŽBAJ! fazama */
 let totalPlannedSeconds=0;
 let cooldownEndSeconds=0;
 let interval=null;
@@ -727,11 +729,11 @@ function toggleMinuteSound(){
   var lbl=document.getElementById("soundToggleLabel");
   var lbl2=document.getElementById("soundToggleLabelTraining");
   if(minuteSoundEnabled){
-    if(lbl){ lbl.style.color="#2ecc71"; lbl.innerText="Zvuk kraja minute = UKLJU\u010cEN"; }
-    if(lbl2){ lbl2.style.color="#2ecc71"; lbl2.innerText="Zvuk kraja minute = UKLJU\u010cEN"; }
+    if(lbl){ lbl.style.color="#2ecc71"; lbl.innerText="Zvuk minute = UKLJU\u010cEN"; }
+    if(lbl2){ lbl2.style.color="#2ecc71"; lbl2.innerText="Zvuk minute = UKLJU\u010cEN"; }
   }else{
-    if(lbl){ lbl.style.color="orange"; lbl.innerText="Zvuk kraja minute = ISKLJU\u010cEN"; }
-    if(lbl2){ lbl2.style.color="orange"; lbl2.innerText="Zvuk kraja minute = ISKLJU\u010cEN"; }
+    if(lbl){ lbl.style.color="orange"; lbl.innerText="Zvuk minute = ISKLJU\u010cEN"; }
+    if(lbl2){ lbl2.style.color="orange"; lbl2.innerText="Zvuk minute = ISKLJU\u010cEN"; }
   }
 }
 
@@ -890,10 +892,10 @@ var lbl2=document.getElementById("soundToggleLabelTraining");
 if(lbl2){
   if(minuteSoundEnabled){
     lbl2.style.color="#2ecc71";
-    lbl2.innerText="Zvuk kraja minute = UKLJU\u010cEN";
+    lbl2.innerText="Zvuk minute = UKLJU\u010cEN";
   }else{
     lbl2.style.color="orange";
-    lbl2.innerText="Zvuk kraja minute = ISKLJU\u010cEN";
+    lbl2.innerText="Zvuk minute = ISKLJU\u010cEN";
   }
 }
 }
@@ -1012,9 +1014,13 @@ rafId=requestAnimationFrame(rafLoop);
 function tick(){
 seconds++;
 totalSeconds++;
+/* Vrijeme treniranja povećava se samo u fazi VJEŽBAJ! (phase 0 i 1) */
+if(phase===0||phase===1){
+  trainingSeconds++;
+}
 console.log("tick: seconds="+seconds+" phaseDuration="+phaseDuration+" phase="+phase+" inCooldown="+inCooldown);
 updateRemaining();
-document.getElementById("totalTime").innerText=formatTime(totalSeconds);
+document.getElementById("totalTime").innerText=formatTime(trainingSeconds);
 
 let maxPhase=(currentEtapa>=totalEtape)?1:2;
 
@@ -1069,7 +1075,7 @@ cooldownMinute=0;
 seconds=0;
 cooldownEndSeconds=totalSeconds+(phaseDuration*3);
 updateRemaining();
-updateLabel("OPUŠTANJE","#3498db");
+updateLabel("OPUŠTANJE!","#3498db");
 updateEtapaProgress(true);
 const c3=document.getElementById("c3");
 c3.classList.remove("hidden");
@@ -1081,8 +1087,9 @@ document.getElementById("c3").className="circle cooldown";
 function cooldownTick(){
 seconds++;
 totalSeconds++;
+/* Vrijeme treniranja se NE povećava u fazi OPUŠTANJE! */
 updateRemaining();
-document.getElementById("totalTime").innerText=formatTime(totalSeconds);
+document.getElementById("totalTime").innerText=formatTime(trainingSeconds);
 
 if(seconds>=phaseDuration){
 console.log("ZVUK cooldown: cooldownMinute="+cooldownMinute);
@@ -1103,7 +1110,7 @@ cooldownMinute++;
 if(cooldownMinute>=3){
 clearInterval(interval);
 stopRAF();
-updateLabel("Bravo trening završen!","#2ecc71");
+updateLabel("Bravo trening je završen!","#2ecc71");
 document.getElementById("startStopBtn").classList.add("hidden");
 document.getElementById("prekidBtn").classList.add("hidden");
 document.getElementById("repeatBtn").classList.remove("hidden");
@@ -1175,6 +1182,7 @@ currentEtapa=1;
 phase=0;
 seconds=0;
 totalSeconds=0;
+trainingSeconds=0;
 totalPlannedSeconds=0;
 cooldownEndSeconds=0;
 interval=null;
@@ -1217,10 +1225,10 @@ var lbl=document.getElementById("soundToggleLabel");
 if(lbl){
   if(minuteSoundEnabled){
     lbl.style.color="#2ecc71";
-    lbl.innerText="Zvuk kraja minute = UKLJU\u010cEN";
+    lbl.innerText="Zvuk minute = UKLJU\u010cEN";
   }else{
     lbl.style.color="orange";
-    lbl.innerText="Zvuk kraja minute = ISKLJU\u010cEN";
+    lbl.innerText="Zvuk minute = ISKLJU\u010cEN";
   }
 }
 
