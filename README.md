@@ -116,7 +116,7 @@ Klikom na **"QR kod"** (žuti tekst) generira se QR kod za dijeljenje aplikacije
 
 Svaki dnevni kardio trening preporučuje se sastavljati od:
 
-1. **Jutarnja tjelovježba** ([YouTube link](https://youtu.be/EkyuoWBDIo0?si=M5GQf5lPK3YvOvsk)) — 30 minuta
+1. **Jutarnja tjelovježba** ([YouTube link](https://youtu.be/EkyuoWBDIo0?t=85)) — 30 minuta
 2. **Prijepodnevna vožnja** sobnog bicikla — ovaj program
 3. **Popodnevna vožnja** sobnog bicikla — ovaj program
 
