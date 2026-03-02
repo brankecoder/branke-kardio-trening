@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kardio Trening v3.28</title>
+<title>Kardio Trening v3.29</title>
 
 <style>
 
@@ -280,7 +280,7 @@ border-color:#e74c3c;
 KARDIO TRENING 
 <span class="version" style="position:relative;">
 <span id="techSpecBtn" onclick="showTechSpec()" style="position:absolute;bottom:100%;left:50%;transform:translateX(-50%);font-size:10px;color:#5a9ab5;cursor:pointer;font-weight:normal;font-family:Arial,sans-serif;white-space:nowrap;line-height:1.2;">Tech Spec</span>
-v3.28
+v3.29
 <a href="https://youtu.be/5qAVh30ElvM?si=59BPaG-FaY_l5Otk" target="_blank"></a>
 </span>
 </h1>
@@ -312,7 +312,7 @@ function alignAuthor(){
 
 <script>
 /* ===== TECH SPEC / README ===== */
-var README_MD = `# 🚴 Kardio Trening v3.28
+var README_MD = `# 🚴 Kardio Trening v3.29
 
 **Web aplikacija za vođenje kardio treninga na sobnom biciklu**, nastala tijekom kardio rehabilitacije (veljača 2026).
 
@@ -330,7 +330,7 @@ Kardio Trening je jednostavna, besplatna aplikacija u obliku jedne HTML datoteke
 
 ## Pokretanje
 
-1. Preuzmi datoteku \`Kardio_by_Branke_v3_28.html\`
+1. Preuzmi datoteku \`Kardio_by_Branke_v3_29.html\`
 2. Otvori je u bilo kojem modernom pregledniku (Chrome, Firefox, Safari, Edge)
 3. Nema instalacije, nema registracije, radi offline
 
@@ -471,7 +471,7 @@ Zadnja etapa:
 
 | Verzija | Opis |
 |---------|------|
-| v3.28 | WhatsApp link zamijenjen grupom (Kardio Trening Grupa@Whatsapp), verzija povećana na v3.28 |
+| v3.29 | WhatsApp link zamijenjen grupom (Kardio Trening Grupa@Whatsapp), verzija povećana na v3.29 |
 | v3.27 | SAT način punjenja (pie animacija), fluidna animacija za oba načina (RAF), popravak zvuka |
 | v3.26 | Način punjenja krugova (SAT/VODA), toggle između načina |
 | v3.25 | Prethodna stabilna verzija |
@@ -1200,6 +1200,10 @@ document.getElementById("c3").className="circle rest";
   var f=document.getElementById(id);
   f.style.transition="none";
   f.style.height="0%";
+});
+["pie1","pie2","pie3"].forEach(function(id){
+  var p=document.getElementById(id);
+  if(p) p.setAttribute("d","");
 });
 document.getElementById("startStopBtn").innerText="START";
 document.getElementById("startStopBtn").className="main-btn";
