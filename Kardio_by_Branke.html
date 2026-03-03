@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="hr">
 <head>
 <meta charset="UTF-8">
@@ -283,7 +283,7 @@ border-color:#e74c3c;
 KARDIO TRENING 
 <span class="version" style="position:relative;">
 <span id="techSpecBtn" onclick="showTechSpec()" style="position:absolute;bottom:100%;left:50%;transform:translateX(-50%);font-size:10px;color:#5a9ab5;cursor:pointer;font-weight:normal;font-family:Arial,sans-serif;white-space:nowrap;line-height:1.2;">Tech Spec</span>
-v3.35
+v3.36
 </h1>
 <div class="author" style="position:relative;">
 <span id="qrBtn" style="cursor:pointer;color:#f1c40f;font-size:12px;text-decoration:none;" onclick="showQR()">QR kod</span>
@@ -313,7 +313,7 @@ function alignAuthor(){
 
 <script>
 /* ===== TECH SPEC / README ===== */
-var README_MD = `# 🚴 Kardio Trening v3.33
+var README_MD = `# 🚴 Kardio Trening v3.36
 
 **Web aplikacija za vođenje kardio treninga na sobnom biciklu**, nastala tijekom kardio rehabilitacije (veljača 2026).
 
@@ -331,7 +331,7 @@ Kardio Trening je jednostavna, besplatna aplikacija u obliku jedne HTML datoteke
 
 ## Pokretanje
 
-1. Preuzmi datoteku \`Kardio_by_Branke_v3_30.html\`
+1. Preuzmi datoteku \`Kardio_by_Branke_v3_36.html\`
 2. Otvori je u bilo kojem modernom pregledniku (Chrome, Firefox, Safari, Edge)
 3. Nema instalacije, nema registracije, radi offline
 
@@ -358,7 +358,12 @@ Prije pokretanja ili u tijeku treninga možeš podesiti:
 
 ### 3. Pokretanje treninga
 
-Pritisni zeleni gumb **START** da pokreneš trening.
+Nakon odabira etapa prikazuje se poruka **ČEKAM!** i zeleni gumb **START**.
+
+Pritisni **START** da pokreneš trening. Gumbi START i PREKID nestaju i slijedi kratki odbrojavanje:
+- nakon 1s prikazuje se crveni natpis **PRIPREMA!**
+- nakon 2s prikazuje se narančasti natpis **POZOR!**
+- nakon 3s trening kreće, pojavljuje se gumb **ZAUSTAVI** i zeleni natpis **VJEŽBAJ!**
 
 Tijekom treninga:
 - Zeleni natpis **VJEŽBAJ!** označava fazu vježbanja
@@ -472,6 +477,7 @@ Zadnja etapa:
 
 | Verzija | Opis |
 |---------|------|
+| v3.36 | ČEKAM! poruka po odabiru etapa; 3s odbrojavanje (PRIPREMA!/POZOR!) prije pokretanja vježbanja |
 | v3.35 | Glasovni signal (GLAS) kao default; redoslijed: GLAS→BEEP→ISKLJ.; u GLAS modu bez beep-a na kraju faze |
 | v3.33 | Tri stanja zvuka: BEEP/ISKLJ./GLAS; GLAS = sinteza govora (hr) izgovara završetak faze i "Sve etape završene!" |
 | v3.32 | Pulsirajući beep (4 pulsa) na kraju 2. min; auto-skaliranje; onemogućen pinch-zoom |
@@ -721,6 +727,9 @@ let inCooldown=false;
 let cooldownMinute=0;
 let wakeLock=null;
 let phaseDuration=60; /* testni mod: 10s, normalni: 60s */
+let countdownT1=null;
+let countdownT2=null;
+let countdownT3=null;
 let testMode=false;
 let authorYellow=false;
 let soundMode='glas'; /* 'glas' | 'beep' | 'off' */
@@ -940,6 +949,9 @@ document.getElementById("techSpecBtn").style.display="none";
 buildEtapaProgress();
 /* Sync sound toggle label in training area */
 updateSoundLabels();
+/* Postavi CEKAM! dok se ceka START */
+document.getElementById("phaseLabel").innerText="ČEKAM!";
+document.getElementById("phaseLabel").style.color="white";
 }
 
 function updateCirclesForEtapa(){
@@ -1187,17 +1199,30 @@ audioCtx=new (window.AudioContext||window.webkitAudioContext)();
 if(audioCtx.state==='suspended'){
 audioCtx.resume();
 }
-running=true;
 requestWakeLock();
+/* Sakrij START i PREKID gumbe odmah */
+document.getElementById("startStopBtn").classList.add("hidden");
+document.getElementById("prekidBtn").classList.add("hidden");
+/* Odbrojavanje: t+1s PRIPREMA! -> t+2s POZOR! -> t+3s VJEZBA! */
+countdownT1=setTimeout(function(){
+updateLabel("PRIPREMA!","#e74c3c");
+countdownT2=setTimeout(function(){
+updateLabel("POZOR!","#e67e22");
+countdownT3=setTimeout(function(){
+/* Pokretanje treninga */
+running=true;
 document.getElementById("startStopBtn").innerText="ZAUSTAVI";
 document.getElementById("startStopBtn").className="stop-btn";
-document.getElementById("prekidBtn").classList.add("hidden");
+document.getElementById("startStopBtn").classList.remove("hidden");
 updateLabel("VJEŽBAJ!","#2ecc71");
 updateCirclesForEtapa();
 updateEtapaProgress();
 if(soundMode!=='off') playBeep('long');
 interval=setInterval(mainLoop,1000);
 phaseStartTime=performance.now(); startRAF();
+},1000);
+},1000);
+},1000);
 }else{
 pauseTraining();
 }
@@ -1243,6 +1268,10 @@ cooldownMinute=0;
 /* testMode i phaseDuration ostaju (autorski klik) */
 
 /* Resetiraj UI treninga */
+/* Ponisti odbrojavanje ako je u tijeku */
+if(countdownT1){ clearTimeout(countdownT1); countdownT1=null; }
+if(countdownT2){ clearTimeout(countdownT2); countdownT2=null; }
+if(countdownT3){ clearTimeout(countdownT3); countdownT3=null; }
 document.getElementById("phaseLabel").innerText="PRIPREMA";
 document.getElementById("phaseLabel").style.color="white";
 document.getElementById("totalTime").innerText="00:00";
