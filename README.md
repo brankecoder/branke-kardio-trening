@@ -1,4 +1,4 @@
-# 🚴 Kardio Trening v3.42
+# 🚴 Kardio Trening v3.45
 
 **Web aplikacija za vođenje kardio treninga na sobnom biciklu**, nastala tijekom kardio rehabilitacije (veljača 2026).
 
@@ -16,7 +16,7 @@ Kardio Trening je jednostavna, besplatna aplikacija u obliku jedne HTML datoteke
 
 ## Pokretanje
 
-1. Preuzmi datoteku \`Kardio_by_Branke_v3_37.html\`
+1. Preuzmi datoteku `Kardio_by_Branke_vX_YZ.html`
 2. Otvori je u bilo kojem modernom pregledniku (Chrome, Firefox, Safari, Edge)
 3. Nema instalacije, nema registracije, radi offline
 
@@ -112,7 +112,7 @@ Ispod krugova prikazuje se redak pravokutnika koji vizualno prate napredak kroz 
 ### ⏱️ Mjerenje vremena
 
 - **Vrijeme treniranja** — ukupno proteklo aktivno vrijeme vježbanja (bez odmora i opuštanja)
-- **Preostalo vrijeme** — koliko vremena ostaje do kraja (uključujući opuštanje)
+- **Preostalo vrijeme** — koliko vremena ostaje do kraja (uključujući odmore i završno opuštanje)
 
 ### 📱 Wake Lock
 
@@ -134,25 +134,25 @@ Svaki dnevni kardio trening preporučuje se sastavljati od:
 
 ### Interval po etapi
 
-\`\`\`
+```
 [ VJEŽBAJ 1 min ] → [ VJEŽBAJ 1 min ] → [ ODMORI 1 min ] → sljedeća etapa
-\`\`\`
+```
 
 Zadnja etapa:
-\`\`\`
+```
 [ VJEŽBAJ 1 min ] → [ VJEŽBAJ 1 min ] → [ OPUŠTANJE! 3 min ]
-\`\`\`
+```
 
 ### Trajanje treninga po broju etapa
 
-| Etape | Trajanje (bez opuštanja) | Ukupno (s opuštanjem) |
-|-------|--------------------------|------------------------|
-| 3 | 5 min | 8 min |
-| 4 | 7 min | 10 min |
-| 6 | 11 min | 14 min |
-| 8 | 15 min | 18 min |
-| 10 | 19 min | 22 min |
-| 12 | 23 min | 26 min |
+| Etape | Trening | Ukupno |
+|-------|---------|--------|
+| 3 | 6 min | 11 min |
+| 4 | 8 min | 14 min |
+| 6 | 12 min | 20 min |
+| 8 | 16 min | 26 min |
+| 10 | 20 min | 32 min |
+| 12 | 24 min | 38 min |
 
 ---
 
@@ -169,6 +169,9 @@ Zadnja etapa:
 
 | Verzija | Opis |
 |---------|------|
+| v3.45 | README: sortirane verzije silazno; ispravljen opis "Preostalo vrijeme"; ispravljena tablica trajanja treninga |
+| v3.44 | README modal: dodan scroll na iOS uređajima (max-height + overflow-y + -webkit-overflow-scrolling) |
+| v3.43 | Prečica na radnoj površini: uklonjen PWA install prompt, prikazuju se jasne upute za Android, iOS, Chrome, Edge i Firefox |
 | v3.42 | Globalni brojač završenih vožnji: narančasti tekst ispod brojača pokretanja, +1 pri startu opuštanja (CountAPI) |
 | v3.41 | Brojač pokretanja promijenjen s localStorage na globalni CountAPI (countapi.mileshilliard.com) |
 | v3.40 | Dodan inline PWA manifest — prečica na radnoj površini dobiva naziv "Kardio Trening" |
