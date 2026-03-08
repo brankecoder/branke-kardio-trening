@@ -1,4 +1,4 @@
-# 🚴 Kardio Trening v3.45
+# 🚴 Kardio Trening v3.46
 
 **Web aplikacija za vođenje kardio treninga na sobnom biciklu**, nastala tijekom kardio rehabilitacije (veljača 2026).
 
@@ -169,6 +169,7 @@ Zadnja etapa:
 
 | Verzija | Opis |
 |---------|------|
+| v3.46 | Upute i napomene poravnate s lijevim rubom gumba za odabir broja etapa |
 | v3.45 | README: sortirane verzije silazno; ispravljen opis "Preostalo vrijeme"; ispravljena tablica trajanja treninga |
 | v3.44 | README modal: dodan scroll na iOS uređajima (max-height + overflow-y + -webkit-overflow-scrolling) |
 | v3.43 | Prečica na radnoj površini: uklonjen PWA install prompt, prikazuju se jasne upute za Android, iOS, Chrome, Edge i Firefox |
