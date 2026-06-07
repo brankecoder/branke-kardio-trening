@@ -1,4 +1,4 @@
-# 🚴 Kardio Trening v3.46
+# 🚴 Kardio Trening v3.50
 
 **Web aplikacija za vođenje kardio treninga na sobnom biciklu**, nastala tijekom kardio rehabilitacije (veljača 2026).
 
@@ -128,7 +128,7 @@ Klikom na **"QR kod"** (žuti tekst) generira se QR kod za dijeljenje aplikacije
 
 Svaki dnevni kardio trening preporučuje se sastavljati od:
 
-1. **Jutarnja tjelovježba** ([YouTube link](https://youtu.be/EkyuoWBDIo0?t=85)) — 30 minuta
+1. **Jutarnja tjelovježba** ([Lagane](https://youtu.be/lnBS0AHQ5YU?t=95) / [Srednje](https://youtu.be/EkyuoWBDIo0?t=85) / [Teške](https://youtu.be/6tzAPMziMBY?t=85)) — 30 minuta
 2. **Prijepodnevna vožnja** sobnog bicikla — ovaj program
 3. **Popodnevna vožnja** sobnog bicikla — ovaj program
 
@@ -160,7 +160,7 @@ Zadnja etapa:
 
 - ⚠️ Prije početka vježbanja savjetujte se s liječnikom.
 - 🔰 Vježbe započnite lagano i postupno pojačavajte.
-- 🚴 Sobni bicikl: preporučuje se srednje opterećenje i tempo oko **60 okretaja/min (≈15 km/h)**.
+- 🚴 Sobni bicikl: preporučuje se srednje opterećenje i tempo oko **60 okretaja/min (≈17 km/h)**.
 - 💻 Aplikacija ne prikuplja podatke, ne treba internet i radi lokalno u pregledniku.
 
 ---
@@ -169,6 +169,9 @@ Zadnja etapa:
 
 | Verzija | Opis |
 |---------|------|
+| v3.50 | Jutarnje tjelovježbe: tri YouTube linka (Lagane/Srednje/Teške) umjesto jednog; zelena/plava/crvena boja |
+| v3.48 | Ažuriranje i manji popravci |
+| v3.47 | Prečica na početni ekran: dinamički manifest s ispravnim GitHub URL-om i ugrađenom base64 ikonom |
 | v3.46 | Upute i napomene poravnate s lijevim rubom gumba za odabir broja etapa |
 | v3.45 | README: sortirane verzije silazno; ispravljen opis "Preostalo vrijeme"; ispravljena tablica trajanja treninga |
 | v3.44 | README modal: dodan scroll na iOS uređajima (max-height + overflow-y + -webkit-overflow-scrolling) |
